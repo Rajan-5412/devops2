@@ -1,0 +1,111 @@
+- Steps to Install IntelliJ Idea
+    Write installation steps
+
+Steps to Create a Maven Project in IntelliJ IDEA
+
+    1. Install Maven:
+        MAVEN_HOME
+
+    2. Create a New Maven Project
+
+    3. Set Up the pom.xml File:
+        <dependencies>
+        <!-- Add your dependencies here from mvnrepository.com (browser)-->
+            seleniuam java
+            testNG
+        </dependencies>
+
+    4. Add Dependencies for Selenium and TestNG
+
+    5. Create a Simple Website (HTML, CSS, and Logo):
+        create docs folder in main project
+        and inside that create HTML,CSS,Logo.png files
+
+    6. Upload the Website to GitHub:
+        git init
+        git add .
+        git commit -m "Initial commit"
+        git remote add origin <your-repository-url>
+        git push -u origin main
+
+
+- Steps to Deploy to GitHub Pages Using /docs Folder
+    1. Modify Maven Configuration to Copy Static Files to /docs Folder:
+        configure the Maven Resources Plugin in your pom.xml to copy the files directly
+        into /docs :
+
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+        <executions>
+            <execution>
+                <phase>prepare-package</phase>
+        <goals>
+            <goal>copy-resources</goal>
+        </goals>
+        <configuration>
+            <outputDirectory>${project.basedir}/docs</outputDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+        <includes>
+            <include>**/*</include>
+        </includes>
+            </resource>
+        </resources>
+        </configuration>
+            </execution>
+        </executions>
+        </plugin>
+        </plugins>
+        </build>
+
+    2. Build the Project:
+        mvn clean install
+
+    3. Push Changes to GitHub
+
+    4. Enable GitHub Pages to deploy
+    5. Access Your Website: with deployed link (open the link)
+
+    6. Write a Simple Selenium Test with TestNG:
+        Create a new Java class WebPageTest.java in the src/test/java directory.
+        Example of a simple TestNG test using Selenium:
+
+        package org.test;
+        import org.openqa.selenium.WebDriver;
+        import org.openqa.selenium.chrome.ChromeDriver;
+        import org.testng.Assert;
+        import org.testng.annotations.AfterTest;
+        import org.testng.annotations.BeforeTest;
+        import org.testng.annotations.Test;
+        import static org.testng.Assert.assertTrue;
+        public class WebpageTest {
+        private static WebDriver driver;
+        @BeforeTest
+        public void openBrowser() throws InterruptedException {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        Thread.sleep(2000);
+        driver.get("github deployed link");
+        }
+
+        @Test
+        public void titleValidationTest(){
+        String actualTitle = driver.getTitle();
+        String expectedTitle = "title of the website";
+        Assert.assertEquals(actualTitle, expectedTitle);
+        assertTrue(true, "Title should contain 'title of the website'");
+        }
+        @AfterTest
+        public void closeBrowser() throws InterruptedException {
+        Thread.sleep(1000);
+        driver.quit();
+        }
+        }
+
+    7. Run the Test:
+        In IntelliJ, right-click the WebPageTest class and select Run 'WebPageTest'.
